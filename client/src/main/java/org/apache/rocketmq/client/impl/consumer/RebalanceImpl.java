@@ -41,8 +41,11 @@ import org.apache.rocketmq.common.protocol.heartbeat.ConsumeType;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 
+// Consumer端实现负载均衡的核心类
 public abstract class RebalanceImpl {
     protected static final InternalLogger log = ClientLogger.getLog();
+
+    // 所有的队列表
     protected final ConcurrentMap<MessageQueue, ProcessQueue> processQueueTable = new ConcurrentHashMap<MessageQueue, ProcessQueue>(64);
     protected final ConcurrentMap<String/* topic */, Set<MessageQueue>> topicSubscribeInfoTable =
         new ConcurrentHashMap<String, Set<MessageQueue>>();
@@ -236,9 +239,10 @@ public abstract class RebalanceImpl {
         return subscriptionInner;
     }
 
+    // 实现Consumer端负载均衡的核心
     private void rebalanceByTopic(final String topic, final boolean isOrder) {
         switch (messageModel) {
-            case BROADCASTING: {
+            case BROADCASTING: { // 广播模式
                 Set<MessageQueue> mqSet = this.topicSubscribeInfoTable.get(topic);
                 if (mqSet != null) {
                     boolean changed = this.updateProcessQueueTableInRebalance(topic, mqSet, isOrder);
@@ -255,7 +259,7 @@ public abstract class RebalanceImpl {
                 }
                 break;
             }
-            case CLUSTERING: {
+            case CLUSTERING: { // 集群模式
                 Set<MessageQueue> mqSet = this.topicSubscribeInfoTable.get(topic);
                 List<String> cidAll = this.mQClientFactory.findConsumerIdList(topic, consumerGroup);
                 if (null == mqSet) {

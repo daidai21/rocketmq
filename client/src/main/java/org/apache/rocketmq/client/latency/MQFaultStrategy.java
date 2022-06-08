@@ -22,10 +22,13 @@ import org.apache.rocketmq.client.log.ClientLogger;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.common.message.MessageQueue;
 
+// 容错策略
 public class MQFaultStrategy {
     private final static InternalLogger log = ClientLogger.getLog();
     private final LatencyFaultTolerance<String> latencyFaultTolerance = new LatencyFaultToleranceImpl();
 
+    // 如果开启，在随机递增取模的基础上，再过滤掉not available的Broker代理
+    // 所谓的"latencyFaultTolerance"，是指对之前失败的，按一定的时间做退避
     private boolean sendLatencyFaultEnable = false;
 
     private long[] latencyMax = {50L, 100L, 550L, 1000L, 2000L, 3000L, 15000L};

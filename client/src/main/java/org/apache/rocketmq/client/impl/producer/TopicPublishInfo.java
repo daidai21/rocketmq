@@ -26,7 +26,7 @@ import org.apache.rocketmq.common.protocol.route.TopicRouteData;
 public class TopicPublishInfo {
     private boolean orderTopic = false;
     private boolean haveTopicRouterInfo = false;
-    private List<MessageQueue> messageQueueList = new ArrayList<MessageQueue>();
+    private List<MessageQueue> messageQueueList = new ArrayList<MessageQueue>(); // 消息队列列表
     private volatile ThreadLocalIndex sendWhichQueue = new ThreadLocalIndex();
     private TopicRouteData topicRouteData;
 
@@ -66,6 +66,7 @@ public class TopicPublishInfo {
         this.haveTopicRouterInfo = haveTopicRouterInfo;
     }
 
+    // 选择一个队列（MessageQueue）进行发送消息
     public MessageQueue selectOneMessageQueue(final String lastBrokerName) {
         if (lastBrokerName == null) {
             return selectOneMessageQueue();

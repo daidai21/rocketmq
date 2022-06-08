@@ -61,6 +61,8 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
  * <strong>Thread Safety:</strong> After initialization, the instance can be regarded as thread-safe.
  * </p>
  */
+// 推荐使用
+// 线程安全
 public class DefaultMQPushConsumer extends ClientConfig implements MQPushConsumer {
 
     private final InternalLogger log = ClientLogger.getLog();

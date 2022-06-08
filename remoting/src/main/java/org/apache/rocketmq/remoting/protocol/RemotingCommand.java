@@ -69,13 +69,13 @@ public class RemotingCommand {
         }
     }
 
-    private int code;
-    private LanguageCode language = LanguageCode.JAVA;
-    private int version = 0;
-    private int opaque = requestId.getAndIncrement();
-    private int flag = 0;
-    private String remark;
-    private HashMap<String, String> extFields;
+    private int code; // 应答响应码。0表示成功，非0则表示各种错误
+    private LanguageCode language = LanguageCode.JAVA; // 应答方实现的语言
+    private int version = 0; // 请求方程序的版本
+    private int opaque = requestId.getAndIncrement(); // 相当于requestId，在同一个连接上的不同请求标识码，与响应消息中的相对应
+    private int flag = 0; // 区分是普通RPC还是onewayRPC的标志
+    private String remark; // 传输自定义文本信息
+    private HashMap<String, String> extFields; // 请求自定义扩展信息
     private transient CommandCustomHeader customHeader;
 
     private SerializeType serializeTypeCurrentRPC = serializeTypeConfigInThisServer;
