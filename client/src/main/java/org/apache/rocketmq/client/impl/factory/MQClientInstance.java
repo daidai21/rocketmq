@@ -254,6 +254,7 @@ public class MQClientInstance {
     }
 
     private void startScheduledTask() {
+        // Producer 和 Consumer 要跟 Name Server 建立连接，就必须首先获取 Name Server 地址。Producer 和 Consumer 采用定时任务每两分钟获取 Name Server 地址并更新本地缓存。
         if (null == this.clientConfig.getNamesrvAddr()) {
             this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
